@@ -30,11 +30,13 @@
     6. minimum을 반환한다.
  
 */
+int whittleDown (int);
 
 int main(void)
 {
     float owed;
     bool check = true;
+    int minimum = 0;
 
     //Prompt the user for a change owed
     do {
@@ -59,10 +61,40 @@ int main(void)
     //$$
     printf("  Bills: %i\n", bills);
     printf("  Coins: %i\n", coins);
+    printf("-----\n");
 
-
-
-    
-
+    //$$
+    minimum = whittleDown(bills) + whittleDown(coins);
+    printf("MINIMUM: %i\n", minimum);
 
 }
+    //
+    int whittleDown (int dividend) {
+            int coinTypes[4] = {25, 10, 5, 1};
+            int remainder = dividend;
+            int result = 0;
+
+            for (int i = 0; i < 4; i++) {
+                int size = coinTypes[i];
+                int quotient = remainder / size;
+                remainder = remainder - (size * quotient);
+
+                result += quotient;    
+
+                //$$
+                printf("    size: %i\n", size);
+                printf("    quotient: %i\n", quotient);
+                printf("    remainder: %i\n", remainder);
+                printf("    result: %i\n\n", result);
+
+                if (remainder == 0)
+                {
+                    i = 999;
+                }
+            }
+
+            //$$
+            printf("---\n");
+
+            return result;
+    }
