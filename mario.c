@@ -22,12 +22,25 @@ int main(void)
         //right-alignd pyramid
         for (int j = (num - 1); j > i; j--)\
         {
-            printf(".");
+            printf(" ");
         }
 
         for (int j = 0; j < (i + 1); j++)
         {
             printf("#");
+        }
+
+        printf("  ");
+
+        //left-aligned pyramid
+        for (int j = 0; j < (i + 1); j++)
+        {
+            printf("#");
+        }
+
+        for (int j = (num - 1); j > i; j--)\
+        {
+            printf(" ");
         }
 
         printf("\n");
