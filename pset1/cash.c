@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <cs50.h>
 #include <math.h>
-
+/*
+    $$ What to do :
+    1. 사용자에게 거스름돈 값을 입력 받는다.
+    2. 거슬러줄 수 있는 동전의 최소 개수를 출력한다.
+*/
 /*
     $$ Pseudocode :
     0. 변수 초기화
