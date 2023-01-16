@@ -28,9 +28,9 @@
         4-4. 나머지 값을 받아 10, 5, 1센트도 반복한다.
     5. 지폐의 minimum과 동전의 minimum을 합산한다.
     6. minimum을 반환한다.
- 
+
 */
-int whittleDown (int);
+int whittleDown(int);
 
 int main(void)
 {
@@ -38,63 +38,46 @@ int main(void)
     bool check = true;
     int minimum = 0;
 
-    //Prompt the user for a change owed
-    do {
+    // Prompt the user for a change owed
+    do
+    {
         owed = get_float("Change owed: ");
 
-        if(owed >= 0)
+        if (owed >= 0)
         {
             check = false;
         }
 
-    }
-    while (check);
+    } while (check);
 
-    //$$
-    printf("  Input: %.2f\n", owed);
-
-    //Convert the user's inputted dollars to cents
+    // Convert the user's inputted dollars to cents
     int bills = (int)owed * 100;
-    int coins = round((owed - (int)owed) * 100); //round(): 가장 가까운 정수로 변환. 예) 0.75 -> 1
+    int coins = round((owed - (int)owed) * 100); // round(): 가장 가까운 정수로 변환. 예) 0.75 -> 1
 
-
-    //$$
-    printf("  Bills: %i\n", bills);
-    printf("  Coins: %i\n", coins);
-    printf("-----\n");
-
-    //$$
+    // Print result(minimum)
     minimum = whittleDown(bills) + whittleDown(coins);
-    printf("MINIMUM: %i\n", minimum);
-
+    printf("%i\n", minimum);
 }
-    //
-    int whittleDown (int dividend) {
-            int coinTypes[4] = {25, 10, 5, 1};
-            int remainder = dividend;
-            int result = 0;
 
-            for (int i = 0; i < 4; i++) {
-                int size = coinTypes[i];
-                int quotient = remainder / size;
-                remainder = remainder - (size * quotient);
+int whittleDown(int dividend)
+{
+    int coinTypes[4] = {25, 10, 5, 1};
+    int remainder = dividend;
+    int result = 0;
 
-                result += quotient;    
+    for (int i = 0; i < 4; i++)
+    {
+        int size = coinTypes[i];
+        int quotient = remainder / size;
+        remainder = remainder - (size * quotient);
 
-                //$$
-                printf("    size: %i\n", size);
-                printf("    quotient: %i\n", quotient);
-                printf("    remainder: %i\n", remainder);
-                printf("    result: %i\n\n", result);
+        result += quotient;
 
-                if (remainder == 0)
-                {
-                    i = 999;
-                }
-            }
-
-            //$$
-            printf("---\n");
-
-            return result;
+        if (remainder == 0)
+        {
+            i = 999;
+        }
     }
+
+    return result;
+}
