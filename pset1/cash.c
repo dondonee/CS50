@@ -51,11 +51,10 @@ int main(void)
     } while (check);
 
     // Convert the user's inputted dollars to cents
-    int bills = (int)owed * 100;
-    int coins = round((owed - (int)owed) * 100); // round(): 가장 가까운 정수로 변환. 예) 0.75 -> 1
+    int coins = round(owed * 100); // round(): 가장 가까운 정수로 변환. 예) 0.75 -> 1
 
     // Print result(minimum)
-    minimum = whittleDown(bills) + whittleDown(coins);
+    minimum = whittleDown(coins);
     printf("%i\n", minimum);
 }
 
