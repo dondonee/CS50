@@ -71,4 +71,30 @@ int main(void)
             sum += element;
         }
     }
+
+    //카드번호가 유효한지 식별
+    string result;
+    if (sum % 10 != 0)
+    {
+        result = "INVALID";
+    } else
+    {
+        //유효한 경우 카드사 식별
+        int creditor = (numbers[0] * 10) + numbers[1];
+        if (creditor == 34 || creditor == 37)
+        {
+            result = "American Express";
+        } else if (creditor >= 51 && creditor <= 55)
+        {
+            result = "MasterCard";
+        } else if (creditor >= 40 && creditor <= 49) {
+            result = "VISA";
+        } else
+        {
+            result = "INVALID";
+        }
+    }
+
+    //결과 출력
+    printf("%s\n", result);
 }
