@@ -62,4 +62,22 @@ int main(void)
     {
         printf("%i\n", numbers[i]);
     }
+    printf("---\n");
+
+    int result = 0;
+    for (int i = 0; i < count; i++)
+    {
+        int element = numbers[i];
+
+        if (element > 9)
+        {
+            result += element / 10;
+            result += element % 10;
+        } else {
+            result += element;
+        }
+
+        //$$
+        printf("result: %i\n", result);
+    }
 }
