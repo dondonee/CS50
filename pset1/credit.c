@@ -14,20 +14,19 @@
 */
 int main(void)
 {
-    //카드번호 프롬프트
+    // 카드번호 프롬프트
     long n = get_long("Number: ");
-    printf("Number: %li\n", n);
 
-    //카드번호의 자리수 구하기
+    // 카드번호의 자리수 구하기
     int count = 0;
     long nTemp = n;
-    while(nTemp != 0)
+    while (nTemp != 0)
     {
         nTemp = nTemp / 10;
         count++;
     }
 
-    //카드번호 배열에 한자리씩 저장하기
+    // 카드번호 배열에 한자리씩 저장하기
     int numbers[count];
     int exponent = count - 1;
     nTemp = n;
@@ -38,16 +37,10 @@ int main(void)
         nTemp %= digit;
     }
 
-    //$$test: 카드변호 배열 출력
-    for (int i = 0; i < count; i++)
-    {
-        printf("%i\n", numbers[i]);
-    }
-
-    //카드번호 자릿수의 홀짝 판단. 총 자릿수가 짝수 -> 배열[짝수]일때 곱하기 2
+    // 카드번호 자릿수의 홀짝 판단. 총 자릿수가 짝수 -> 배열[짝수]일때 곱하기 2
     int check = count % 2;
 
-    //대상 digit에 곱하기 2
+    // 대상 digit에 곱하기 2
     for (int i = 0; i < count; i++)
     {
         if (i % 2 == check)
@@ -55,14 +48,6 @@ int main(void)
             numbers[i] *= 2;
         }
     }
-
-    //$$test: 카드변호 배열 출력
-    printf("---\n");
-    for (int i = 0; i < count; i++)
-    {
-        printf("%i\n", numbers[i]);
-    }
-    printf("---\n");
 
     int result = 0;
     for (int i = 0; i < count; i++)
@@ -73,11 +58,10 @@ int main(void)
         {
             result += element / 10;
             result += element % 10;
-        } else {
+        }
+        else
+        {
             result += element;
         }
-
-        //$$
-        printf("result: %i\n", result);
     }
 }
