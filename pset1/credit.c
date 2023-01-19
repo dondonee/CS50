@@ -20,7 +20,7 @@ int main(void)
 
     //카드번호의 자리수 구하기
     int count = 0;
-    int nTemp = n;
+    long nTemp = n;
     while(nTemp != 0)
     {
         nTemp = nTemp / 10;
@@ -33,7 +33,7 @@ int main(void)
     nTemp = n;
     for (int i = 0; i < count; i++)
     {
-        int digit = (int)pow(10.0, (double)exponent - i);
+        long digit = (long)pow(10.0, (double)exponent - i);
         numbers[i] = (int)(nTemp / digit);
         nTemp %= digit;
     }
