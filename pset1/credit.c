@@ -43,6 +43,13 @@ int main(void)
         nTemp %= digit;
     }
 
+    // numbersTemp[]에 numbers[] 복제
+    int numbersTemp[count];
+    for (int i = 0; i < count; i++)
+    {
+        numbersTemp[i] = numbers[i];
+    }
+
     // 카드번호 자릿수의 홀짝 판단. 총 자릿수가 짝수 -> 배열[짝수]일때 곱하기 2
     int check = count % 2;
 
@@ -51,7 +58,7 @@ int main(void)
     {
         if (i % 2 == check)
         {
-            numbers[i] *= 2;
+            numbersTemp[i] *= 2;
         }
     }
 
@@ -59,7 +66,7 @@ int main(void)
     int sum = 0;
     for (int i = 0; i < count; i++)
     {
-        int element = numbers[i];
+        int element = numbersTemp[i];
 
         if (element > 9)
         {
@@ -72,29 +79,34 @@ int main(void)
         }
     }
 
-    //카드번호가 유효한지 식별
+    // 카드번호가 유효한지 식별
     string result;
     if (sum % 10 != 0)
     {
         result = "INVALID";
-    } else
+    }
+    else
     {
-        //유효한 경우 카드사 식별
+        // 유효한 경우 카드사 식별
         int creditor = (numbers[0] * 10) + numbers[1];
-        if (creditor == 34 || creditor == 37)
+        if ((creditor == 34 || creditor == 37) && count == 15)
         {
-            result = "American Express";
-        } else if (creditor >= 51 && creditor <= 55)
+            result = "AMEX";
+        }
+        else if (creditor >= 51 && creditor <= 55 && count == 16)
         {
-            result = "MasterCard";
-        } else if (creditor >= 40 && creditor <= 49) {
+            result = "MASTERCARD";
+        }
+        else if (creditor >= 40 && creditor <= 49 && (count == 13 || count == 16))
+        {
             result = "VISA";
-        } else
+        }
+        else
         {
             result = "INVALID";
         }
     }
 
-    //결과 출력
+    // 결과 출력
     printf("%s\n", result);
 }
