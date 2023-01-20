@@ -43,40 +43,21 @@ int main(void)
         nTemp %= digit;
     }
 
-    // numbersTemp[]에 numbers[] 복제
-    int numbersTemp[count];
-    for (int i = 0; i < count; i++)
-    {
-        numbersTemp[i] = numbers[i];
-    }
-
     // 카드번호 자릿수의 홀짝 판단. 총 자릿수가 짝수 -> 배열[짝수]일때 곱하기 2
-    int check = count % 2;
+    int parity = count % 2;
 
-    // 대상 digit에 곱하기 2
-    for (int i = 0; i < count; i++)
-    {
-        if (i % 2 == check)
-        {
-            numbersTemp[i] *= 2;
-        }
-    }
-
-    // 각 digit 더하기
+    // checksum 연산
     int sum = 0;
+
     for (int i = 0; i < count; i++)
     {
-        int element = numbersTemp[i];
+        int digit = numbers[i];
 
-        if (element > 9)
-        {
-            sum += element / 10;
-            sum += element % 10;
-        }
-        else
-        {
-            sum += element;
-        }
+        if (i % 2 == parity)
+            digit *= 2;
+
+        sum += digit / 10;
+        sum += digit % 10;
     }
 
     // 카드번호가 유효한지 식별
