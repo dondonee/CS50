@@ -11,6 +11,7 @@ int main(void)
 
     //Letters
     int nLetterCnt = 0;
+    int nWordCnt = 0;
     for(int i = 0; i < nLength; i++)
     {
         char cLetter = sText[i];
@@ -19,8 +20,14 @@ int main(void)
         {
             nLetterCnt++;
         };
+
+        if (cLetter == ' ' || (cLetter == '.' && i == nLength -1))
+        {
+            nWordCnt++;
+        }
     }
 
-    printf("%i\n", nLetterCnt);
+    printf("%i letter(s)\n", nLetterCnt);
+    printf("%i word(s)\n", nWordCnt);
 
 }
