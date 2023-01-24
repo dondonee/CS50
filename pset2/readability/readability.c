@@ -48,8 +48,7 @@ int main(void)
     // Coleman-Liau Index
     float L = ((float)nLetterCnt / (float)nWordCnt) * 100.00;
     float S = ((float)nSentenceCnt / (float)nWordCnt) * 100.00;
-    float nIndex = 0.0588 * L - 0.296 * S - 15.8;
-    int nGrade = round(nIndex);
+    int nGrade = round(0.0588 * L - 0.296 * S - 15.8);
 
     // Print the result
     if (nGrade < 1)
