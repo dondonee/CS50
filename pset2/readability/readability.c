@@ -2,6 +2,7 @@
 #include <cs50.h>
 #include <ctype.h>
 #include <string.h>
+#include <math.h>
 
 int main(void)
 {
@@ -9,7 +10,7 @@ int main(void)
     string sText = get_string("Text: ");
     int nLength = strlen(sText);
 
-    // Letters
+    // Count
     int nLetterCnt = 0;
     int nWordCnt = 1;
     int nSentenceCnt = 0;
@@ -17,17 +18,20 @@ int main(void)
     {
         char cLetter = sText[i];
 
+        // Letters
         if (isupper(cLetter) || islower(cLetter))
         {
             nLetterCnt++;
         };
 
+        // Words
         if (cLetter == ' ' && (isupper(sText[i + 1]) || islower(sText[i + 1])))
         {
             nWordCnt++;
         }
 
-        if (cLetter == '.' || cLetter == '!' || cLetter == '?')
+        // Sentences
+        if (cLetter == '.' || cLetter == '!' || cLetter == '?' || cLetter == ':')
         {
             char str1[2];
             char str2[3];
@@ -41,7 +45,23 @@ int main(void)
         }
     }
 
-    printf("%i letter(s)\n", nLetterCnt);
-    printf("%i word(s)\n", nWordCnt);
-    printf("%i sentence(s)\n", nSentenceCnt);
+    // Coleman-Liau Index
+    float L = ((float)nLetterCnt / (float)nWordCnt) * 100.00;
+    float S = ((float)nSentenceCnt / (float)nWordCnt) * 100.00;
+    float nIndex = 0.0588 * L - 0.296 * S - 15.8;
+    int nGrade = round(nIndex);
+
+    // Print the result
+    if (nGrade < 1)
+    {
+        printf("Before Grade 1\n");
+    }
+    else if (nGrade > 16)
+    {
+        printf("Grade 16+\n");
+    }
+    else
+    {
+        printf("Grade %i\n", nGrade);
+    }
 }
