@@ -19,13 +19,13 @@ int main(void)
         char cLetter = sText[i];
 
         // Letters
-        if (isalpha(cLetter) != 0)
+        if (isalpha(cLetter))
         {
             nLetterCnt++;
         };
 
         // Words
-        if (cLetter == ' ' && isalpha(sText[i + 1]) != 0)
+        if (cLetter == ' ' && isalpha(sText[i + 1]))
         {
             nWordCnt++;
         }
