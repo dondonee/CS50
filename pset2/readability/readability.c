@@ -27,7 +27,7 @@ int main(void)
             nWordCnt++;
         }
 
-        if (cLetter == '.')
+        if (cLetter == '.' || cLetter == '!' || cLetter == '?')
         {
             char str1[2];
             char str2[3];
