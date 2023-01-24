@@ -11,7 +11,7 @@ int main(void)
 
     // Letters
     int nLetterCnt = 0;
-    int nWordCnt = 0;
+    int nWordCnt = 1;
     int nSentenceCnt = 0;
     for (int i = 0; i < nLength; i++)
     {
@@ -22,7 +22,7 @@ int main(void)
             nLetterCnt++;
         };
 
-        if (cLetter == ' ' || (cLetter == '.' && i == nLength - 1))
+        if (cLetter == ' ' && (isupper(sText[i + 1]) || islower(sText[i + 1])))
         {
             nWordCnt++;
         }
