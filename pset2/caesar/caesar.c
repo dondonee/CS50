@@ -36,7 +36,8 @@ bool checkArg(int argc, char **argv)
     }
     else
     {
-        for (int i = 0; i < (int)strlen(argv[1]) - 1; i++)
+        int len = (int)strlen(argv[1]);
+        for (int i = 0; i < len; i++)
         {
             char element = argv[1][i];
             if (isdigit(element) == 0)
