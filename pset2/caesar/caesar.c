@@ -7,6 +7,7 @@
 
 bool checkArg(int, char **);
 char encrpyt(int, char);
+char* getEncryptedString(int, char *);
 
 int main(int argc, char **argv)
 {
@@ -18,14 +19,9 @@ int main(int argc, char **argv)
 
     int key = atoi(argv[1]);
     char *plaintext = get_string("plaintext:  ");
+    char *ciphertext = getEncryptedString(key, plaintext);
+
     int len = strlen(plaintext);
-    char ciphertext[len];
-
-    for (int i = 0; i < len; i++)
-    {
-        ciphertext[i] = encrpyt(key, plaintext[i]);
-    }
-
     printf("ciphertext: ");
     for (int i = 0; i < len; i++)
     {
@@ -82,4 +78,17 @@ char encrpyt(int key, char character)
     }
 
     return (char)result;
+}
+
+char* getEncryptedString(int key, char *plaintext)
+{
+    int len = strlen(plaintext);
+    char result[len];
+
+    for (int i = 0; i < len; i++)
+    {
+        result[i] = encrpyt(key, plaintext[i]);
+    }
+
+    return strdup(result);
 }
