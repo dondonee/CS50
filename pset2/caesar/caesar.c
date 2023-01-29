@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 bool checkArg(int, char **) ;
 
@@ -10,7 +11,9 @@ int main(int argc, char **argv)
 {
     if (checkArg(argc, argv))
     {
-        printf("ok\n");
+        printf("Success\n");
+        int k = atoi(argv[1]);
+        printf("%i\n", k);
         return 0;
     }
     else
