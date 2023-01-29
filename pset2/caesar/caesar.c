@@ -5,16 +5,18 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-bool checkArg(int, char **) ;
+bool checkArg(int, char **);
+char encrpyt(int, char);
 
 int main(int argc, char **argv)
 {
     if (checkArg(argc, argv))
     {
-        printf("Success\n");
-        int k = atoi(argv[1]);
-        printf("%i\n", k);
-        return 0;
+        int key = atoi(argv[1]);
+        char *plaintext = get_string("plaintext : ");
+        char tempChar = encrpyt(key, plaintext[0]);
+
+        printf("%c\n", tempChar);
     }
     else
     {
@@ -45,4 +47,24 @@ bool checkArg(int argc, char **argv)
     }
 
     return result;
+}
+
+// 한 문자를 암호화
+char encrpyt(int key, char character)
+{
+    int result;
+    int position;
+
+    if (isupper(character))
+    {
+        position = (character - 65 + key) % 26;
+        result = 65 + position;
+    }
+    else
+    {
+        position = (character - 97 + key) % 26;
+        result = 97 + position;
+    }
+
+    return (char)result;
 }
