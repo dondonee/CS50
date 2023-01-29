@@ -7,7 +7,8 @@
 
 bool checkArg(int, char **);
 char encrpyt(int, char);
-char* getEncryptedString(int, char *);
+char *getEncryptedString(int, char *);
+void printCiphertext(char *);
 
 int main(int argc, char **argv)
 {
@@ -21,14 +22,7 @@ int main(int argc, char **argv)
     char *plaintext = get_string("plaintext:  ");
     char *ciphertext = getEncryptedString(key, plaintext);
 
-    int len = strlen(plaintext);
-    printf("ciphertext: ");
-    for (int i = 0; i < len; i++)
-    {
-        printf("%c", ciphertext[i]);
-    }
-
-    printf("\n");
+    printCiphertext(ciphertext);
 }
 
 // 명령행 인자가 적절한 값인지 판단
@@ -80,7 +74,7 @@ char encrpyt(int key, char character)
     return (char)result;
 }
 
-char* getEncryptedString(int key, char *plaintext)
+char *getEncryptedString(int key, char *plaintext)
 {
     int len = strlen(plaintext);
     char result[len];
@@ -91,4 +85,18 @@ char* getEncryptedString(int key, char *plaintext)
     }
 
     return strdup(result);
+}
+
+void printCiphertext(char *ciphertext)
+{
+    int len = strlen(ciphertext);
+
+    printf("ciphertext: ");
+
+    for (int i = 0; i < len; i++)
+    {
+        printf("%c", ciphertext[i]);
+    }
+
+    printf("\n");
 }
