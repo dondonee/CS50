@@ -10,19 +10,17 @@ char encrpyt(int, char);
 
 int main(int argc, char **argv)
 {
-    if (checkArg(argc, argv))
-    {
-        int key = atoi(argv[1]);
-        char *plaintext = get_string("plaintext : ");
-        char tempChar = encrpyt(key, plaintext[0]);
-
-        printf("%c\n", tempChar);
-    }
-    else
+    if (checkArg(argc, argv) == false)
     {
         printf("usage: ./caesar key\n");
         return 1;
     }
+
+    int key = atoi(argv[1]);
+    char *plaintext = get_string("plaintext : ");
+    char tempChar = encrpyt(key, plaintext[0]);
+
+    printf("%c\n", tempChar);
 }
 
 // 명령행 인자가 적절한 값인지 판단
