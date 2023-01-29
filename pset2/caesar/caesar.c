@@ -18,9 +18,21 @@ int main(int argc, char **argv)
 
     int key = atoi(argv[1]);
     char *plaintext = get_string("plaintext : ");
-    char tempChar = encrpyt(key, plaintext[0]);
+    int len = strlen(plaintext);
+    char ciphertext[len];
 
-    printf("%c\n", tempChar);
+    for (int i = 0; i < len; i++)
+    {
+        ciphertext[i] = encrpyt(key, plaintext[i]);
+    }
+
+    printf("ciphertext: ");
+    for (int i = 0; i < len; i++)
+    {
+        printf("%c", ciphertext[i]);
+    }
+
+    printf("\n");
 }
 
 // 명령행 인자가 적절한 값인지 판단
