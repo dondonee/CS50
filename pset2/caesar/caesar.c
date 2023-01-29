@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     }
 
     int key = atoi(argv[1]);
-    char *plaintext = get_string("plaintext : ");
+    char *plaintext = get_string("plaintext:  ");
     int len = strlen(plaintext);
     char ciphertext[len];
 
@@ -71,10 +71,14 @@ char encrpyt(int key, char character)
         position = (character - 65 + key) % 26;
         result = 65 + position;
     }
-    else
+    else if (islower(character))
     {
         position = (character - 97 + key) % 26;
         result = 97 + position;
+    }
+    else
+    {
+        result = character;
     }
 
     return (char)result;
