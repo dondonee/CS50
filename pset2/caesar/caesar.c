@@ -30,26 +30,12 @@ int main(int argc, char **argv)
 // 명령행 인자가 적절한 값인지 판단
 bool checkArg(int argc, char **argv)
 {
-    bool result = true;
-
-    if (argc != 2)
+    if (argc != 2 || strspn(argv[1], "0123456789") != strlen(argv[1]))
     {
-        result = false;
-    }
-    else
-    {
-        int len = (int)strlen(argv[1]);
-        for (int i = 0; i < len; i++)
-        {
-            char element = argv[1][i];
-            if (isdigit(element) == 0)
-            {
-                result = false;
-            }
-        }
+        return false;
     }
 
-    return result;
+    return true;
 }
 
 // 한 문자를 암호화
