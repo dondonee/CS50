@@ -4,11 +4,10 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <stdlib.h>
 
 bool checkArg(int, char **);
-char encrpyt(int, char);
-char *getEncryptedString(int, char *);
+char encrypt(int, char);
+char *getCiphertext(int, char *);
 void printCiphertext(char *);
 
 int main(int argc, char **argv)
@@ -21,7 +20,7 @@ int main(int argc, char **argv)
 
     int key = atoi(argv[1]);
     char *plaintext = get_string("plaintext:  ");
-    char *ciphertext = getEncryptedString(key, plaintext);
+    char *ciphertext = getCiphertext(key, plaintext);
 
     printCiphertext(ciphertext);
     free(ciphertext);
@@ -53,7 +52,7 @@ bool checkArg(int argc, char **argv)
 }
 
 // 한 문자를 암호화
-char encrpyt(int key, char character)
+char encrypt(int key, char character)
 {
     int result;
     int position;
@@ -76,14 +75,14 @@ char encrpyt(int key, char character)
     return (char)result;
 }
 
-char *getEncryptedString(int key, char *plaintext)
+char *getCiphertext(int key, char *plaintext)
 {
     int len = strlen(plaintext);
     char *result = malloc(len + 1);
 
     for (int i = 0; i < len; i++)
     {
-        result[i] = encrpyt(key, plaintext[i]);
+        result[i] = encrypt(key, plaintext[i]);
     }
 
     result[len] = '\0';
