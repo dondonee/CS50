@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdlib.h>
 
 bool checkArg(int, char **);
 char encrpyt(int, char);
@@ -23,6 +24,7 @@ int main(int argc, char **argv)
     char *ciphertext = getEncryptedString(key, plaintext);
 
     printCiphertext(ciphertext);
+    free(ciphertext);
 }
 
 // 명령행 인자가 적절한 값인지 판단
@@ -77,14 +79,16 @@ char encrpyt(int key, char character)
 char *getEncryptedString(int key, char *plaintext)
 {
     int len = strlen(plaintext);
-    char result[len];
+    char *result = malloc(len + 1);
 
     for (int i = 0; i < len; i++)
     {
         result[i] = encrpyt(key, plaintext[i]);
     }
 
-    return strdup(result);
+    result[len] = '\0';
+
+    return result;
 }
 
 void printCiphertext(char *ciphertext)
