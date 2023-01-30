@@ -8,7 +8,6 @@
 bool checkArg(int, char **);
 char encrypt(int, char);
 char *getCiphertext(int, char *);
-void printCiphertext(char *);
 
 int main(int argc, char **argv)
 {
@@ -22,8 +21,10 @@ int main(int argc, char **argv)
     char *plaintext = get_string("plaintext:  ");
     char *ciphertext = getCiphertext(key, plaintext);
 
-    printCiphertext(ciphertext);
+    printf("ciphertext: %s\n", ciphertext);
     free(ciphertext);
+
+    return 0;
 }
 
 // 명령행 인자가 적절한 값인지 판단
@@ -88,18 +89,4 @@ char *getCiphertext(int key, char *plaintext)
     result[len] = '\0';
 
     return result;
-}
-
-void printCiphertext(char *ciphertext)
-{
-    int len = strlen(ciphertext);
-
-    printf("ciphertext: ");
-
-    for (int i = 0; i < len; i++)
-    {
-        printf("%c", ciphertext[i]);
-    }
-
-    printf("\n");
 }
