@@ -17,7 +17,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    int key = atoi(argv[1]);
+    const int key = atoi(argv[1]);
     char *plaintext = get_string("plaintext:  ");
     char *ciphertext = getCiphertext(key, plaintext);
 
@@ -50,10 +50,10 @@ char encrypt(int key, char character)
 
 char *getCiphertext(int key, char *plaintext)
 {
-    int len = strlen(plaintext);
+    size_t len = strlen(plaintext);
     char *result = malloc(len + 1);
 
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < (int)len; i++)
     {
         result[i] = encrypt(key, plaintext[i]);
     }
