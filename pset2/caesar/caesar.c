@@ -41,25 +41,11 @@ bool checkArg(int argc, char **argv)
 // 한 문자를 암호화
 char encrypt(int key, char character)
 {
-    int result;
-    int position;
-
-    if (isupper(character))
+    if (isalpha(character))
     {
-        position = (character - 65 + key) % 26;
-        result = 65 + position;
+        return (char)((character - (islower(character) ? 97 : 65) + key) % 26 + (islower(character) ? 97 : 65));
     }
-    else if (islower(character))
-    {
-        position = (character - 97 + key) % 26;
-        result = 97 + position;
-    }
-    else
-    {
-        result = character;
-    }
-
-    return (char)result;
+    return character;
 }
 
 char *getCiphertext(int key, char *plaintext)
