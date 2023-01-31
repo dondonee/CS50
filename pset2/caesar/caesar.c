@@ -61,7 +61,7 @@ char encrypt(int key, char character)
 char *getCiphertext(int key, char *plaintext)
 {
     size_t len = strlen(plaintext);
-    char *result = strdup(plaintext);
+    char *result = malloc(len);
 
     for (int i = 0; i < (int)len; i++)
     {
