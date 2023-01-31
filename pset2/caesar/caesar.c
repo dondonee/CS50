@@ -21,8 +21,9 @@ int main(int argc, char **argv)
     char *plaintext = get_string("plaintext:  ");
     char *ciphertext = getCiphertext(key, plaintext);
 
-    printf("ciphertext: %s\n", ciphertext);
+    printf("ciphertext: %s", ciphertext);
     free(ciphertext);
+    printf("\n");
 
     return 0;
 }
