@@ -61,14 +61,12 @@ char encrypt(int key, char character)
 char *getCiphertext(int key, char *plaintext)
 {
     size_t len = strlen(plaintext);
-    char *result = malloc(len + 1);
+    char *result = strdup(plaintext);
 
     for (int i = 0; i < (int)len; i++)
     {
         result[i] = encrypt(key, plaintext[i]);
     }
-
-    result[len] = '\0';
 
     return result;
 }
