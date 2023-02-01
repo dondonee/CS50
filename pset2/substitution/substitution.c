@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#define ALPHABET_LEN 26
+
 bool checkArg(int, char **);
 int getPosition(char);
 char *getCiphertext(char *, char *);
@@ -38,17 +40,15 @@ bool checkArg(int argc, char **argv)
         return false;
     }
 
-    size_t len = strlen(argv[1]);
-
-    if (len != 26)
+    if (strlen(argv[1]) != ALPHABET_LEN)
     {
         printf("Key must contain 26 characters.\n");
         return false;
     }
 
-    char temp[len];
+    char temp[ALPHABET_LEN];
 
-    for (int i = 0; i < (int)len; i++)
+    for (int i = 0; i < ALPHABET_LEN; i++)
     {
         if (islower(argv[1][i]))
         {
@@ -60,17 +60,17 @@ bool checkArg(int argc, char **argv)
         }
     }
 
-    if (strspn(temp, "ABCDEFGHIJKLMNOPQRSTUVWXYZ") != len)
+    if (strspn(temp, "ABCDEFGHIJKLMNOPQRSTUVWXYZ") != ALPHABET_LEN)
     {
         printf("Key must only contain alphabetic characters.\n");
         return false;
     }
 
-    if (strspn("ABCDEFGHIJKLMNOPQRSTUVWXYZ", temp) != len)
+    if (strspn("ABCDEFGHIJKLMNOPQRSTUVWXYZ", temp) != ALPHABET_LEN)
     {
         printf("Key must not contain repeated characters.\n");
         return false;
-    } 
+    }
 
     return true;
 }
