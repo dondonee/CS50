@@ -17,7 +17,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    char *key = strdup(argv[1]);
+    char *key = malloc(strlen(argv[1]));
+    key = strcpy(key, argv[1]);
     char *plaintext = get_string("plaintext:  ");
     char *ciphertext = getCiphertext(key, plaintext);
 
