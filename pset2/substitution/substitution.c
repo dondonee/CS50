@@ -7,12 +7,12 @@
 
 #define ALPHABET_LEN 26
 
-bool checkArg(int, char **);
-char *getCiphertext(char *, char *);
+bool checkArg(int argc, char **argv);
+char *getCiphertext(char *key, char *plaintext);
 
 int main(int argc, char **argv)
 {
-    if (checkArg(argc, argv) == false)
+    if (!checkArg(argc, argv))
     {
         return 1;
     }
