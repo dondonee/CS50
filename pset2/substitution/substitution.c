@@ -13,7 +13,6 @@ int main(int argc, char **argv)
 {
     if (checkArg(argc, argv) == false)
     {
-        printf("usage: ./caesar key\n");
         return 1;
     }
 
@@ -35,6 +34,7 @@ bool checkArg(int argc, char **argv)
 
     if (argc != 2)
     {
+        printf("usage: ./caesar key\n");
         return false;
     }
 
@@ -42,6 +42,7 @@ bool checkArg(int argc, char **argv)
 
     if (len != 26)
     {
+        printf("Key must contain 26 characters.\n");
         return false;
     }
 
@@ -59,10 +60,17 @@ bool checkArg(int argc, char **argv)
         }
     }
 
-    if (strspn("ABCDEFGHIJKLMNOPQRSTUVWXYZ", temp) != len)
+    if (strspn(temp, "ABCDEFGHIJKLMNOPQRSTUVWXYZ") != len)
     {
+        printf("Key must only contain alphabetic characters.\n");
         return false;
     }
+
+    if (strspn("ABCDEFGHIJKLMNOPQRSTUVWXYZ", temp) != len)
+    {
+        printf("Key must not contain repeated characters.\n");
+        return false;
+    } 
 
     return true;
 }
