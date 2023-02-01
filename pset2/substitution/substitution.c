@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 bool checkArg(int, char **);
+int getPosition(char);
 
 int main(int argc, char **argv)
 {
@@ -19,8 +20,10 @@ int main(int argc, char **argv)
         printf("Succces.\n");
     }
 
-    char *key = strdup(argv[1]);
+    //char *key = strdup(argv[1]);
     char *plaintext = get_string("plaintext:  ");
+
+    printf("position: %i\n", getPosition(plaintext[0]));
 
     return 0;
 }
@@ -46,4 +49,19 @@ bool checkArg(int argc, char **argv)
     }
 
     return false;
+}
+
+int getPosition(char character)
+{
+    if (isupper(character))
+    {
+        return character - 65;
+    }
+
+    if (islower(character))
+    {
+        return character - 97;
+    }
+
+    return character;
 }
