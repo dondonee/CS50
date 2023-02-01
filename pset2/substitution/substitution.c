@@ -26,6 +26,7 @@ int main(int argc, char **argv)
     printf("\n");
     free(key);
     free(ciphertext);
+
     return 0;
 }
 
@@ -44,12 +45,26 @@ bool checkArg(int argc, char **argv)
         return false;
     }
 
-    if (strspn("ABCDEFGHIJKLMNOPQRSTUVWXYZ", argv[1]) == len || strspn("abcdefghijklmnopqrstuvwxyz", argv[1]) == len)
+    char temp[len];
+
+    for (int i = 0; i < (int)len; i++)
     {
-        return true;
+        if (islower(argv[1][i]))
+        {
+            temp[i] = toupper(argv[1][i]);
+        }
+        else
+        {
+            temp[i] = argv[1][i];
+        }
     }
 
-    return false;
+    if (strspn("ABCDEFGHIJKLMNOPQRSTUVWXYZ", temp) != len)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 int getPosition(char character)
