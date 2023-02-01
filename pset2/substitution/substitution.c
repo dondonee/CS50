@@ -17,8 +17,12 @@ int main(int argc, char **argv)
     else
     {
         printf("Succces.\n");
-        return 0;
     }
+
+    char *key = strdup(argv[1]);
+    char *plaintext = get_string("plaintext:  ");
+
+    return 0;
 }
 
 bool checkArg(int argc, char **argv)
