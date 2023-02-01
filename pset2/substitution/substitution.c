@@ -8,7 +8,6 @@
 #define ALPHABET_LEN 26
 
 bool checkArg(int, char **);
-int getPosition(char);
 char *getCiphertext(char *, char *);
 
 int main(int argc, char **argv)
@@ -17,15 +16,12 @@ int main(int argc, char **argv)
     {
         return 1;
     }
-
-    char *key = malloc(strlen(argv[1]));
-    key = strcpy(key, argv[1]);
+    
     char *plaintext = get_string("plaintext:  ");
-    char *ciphertext = getCiphertext(key, plaintext);
+    char *ciphertext = getCiphertext(argv[1], plaintext);
 
     printf("ciphertext: %s", ciphertext);
     printf("\n");
-    free(key);
     free(ciphertext);
 
     return 0;
@@ -75,21 +71,6 @@ bool checkArg(int argc, char **argv)
     return true;
 }
 
-int getPosition(char character)
-{
-    if (isupper(character))
-    {
-        return character - 65;
-    }
-
-    if (islower(character))
-    {
-        return character - 97;
-    }
-
-    return character;
-}
-
 char *getCiphertext(char *key, char *plaintext)
 {
     size_t len = strlen(plaintext);
@@ -98,15 +79,17 @@ char *getCiphertext(char *key, char *plaintext)
     for (int i = 0; i < (int)len; i++)
     {
         char character = plaintext[i];
-        int position = getPosition(plaintext[i]);
+        int index;
 
         if (isupper(character))
         {
-            result[i] = toupper(key[position]);
+            index = character - 'A';
+            result[i] = toupper(key[index]);
         }
         else if (islower(character))
         {
-            result[i] = tolower(key[position]);
+            index = character - 'a';
+            result[i] = tolower(key[index]);
         }
         else
         {
