@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     {
         return 1;
     }
-    
+
     char *plaintext = get_string("plaintext:  ");
     char *ciphertext = getCiphertext(argv[1], plaintext);
 
@@ -46,14 +46,7 @@ bool checkArg(int argc, char **argv)
 
     for (int i = 0; i < ALPHABET_LEN; i++)
     {
-        if (islower(argv[1][i]))
-        {
-            temp[i] = toupper(argv[1][i]);
-        }
-        else
-        {
-            temp[i] = argv[1][i];
-        }
+        temp[i] = toupper(argv[1][i]);
     }
 
     if (strspn(temp, "ABCDEFGHIJKLMNOPQRSTUVWXYZ") != ALPHABET_LEN)
