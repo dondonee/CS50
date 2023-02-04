@@ -10,8 +10,7 @@ typedef struct
 {
     string name;
     int votes;
-}
-candidate;
+} candidate;
 
 // Array of candidates
 candidate candidates[MAX];
@@ -81,10 +80,23 @@ bool vote(string name)
 // Print the winner (or winners) of the election
 void print_winner(void)
 {
-    // vote() 테스트를 위한 임시 코드
+    int max = 0;
+
     for (int i = 0; i < candidate_count; i++)
     {
-        printf("%i. %s got %i vote(s).\n", i + 1, candidates[i].name, candidates[i].votes);
+        if (candidates[i].votes > max)
+        {
+            max = candidates[i].votes;
+        }
+    }
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (candidates[i].votes == max)
+        {
+            printf("%s", candidates[i].name);
+            printf("\n");
+        }
     }
 
     return;
