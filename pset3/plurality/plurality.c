@@ -66,13 +66,26 @@ int main(int argc, string argv[])
 // Update vote totals given a new vote
 bool vote(string name)
 {
-    // TODO
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (strcmp(name, candidates[i].name) == 0)
+        {
+            candidates[i].votes++;
+            return true;
+        }
+    }
+
     return false;
 }
 
 // Print the winner (or winners) of the election
 void print_winner(void)
 {
-    // TODO
+    // vote() 테스트를 위한 임시 코드
+    for (int i = 0; i < candidate_count; i++)
+    {
+        printf("%i. %s got %i vote(s).\n", i + 1, candidates[i].name, candidates[i].votes);
+    }
+
     return;
 }
