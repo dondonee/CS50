@@ -144,21 +144,21 @@ void tabulate(void)
 {
     int valid[candidate_count];
     int valid_count = 0;
-    int j = 0;
+    int x = 0;
     for (int i = 0; i < candidate_count; i++)
     {
-        if (j == candidate_count)
+        if (x == candidate_count)
         {
             break;
         }
 
-        for (; j < candidate_count; j++)
+        for (; x < candidate_count; x++)
         {
-            if (candidates[j].eliminated == false)
+            if (candidates[x].eliminated == false)
             {
-                valid[i] = j;
+                valid[i] = x;
                 valid_count++;
-                j++;
+                x++;
                 break;
             }
         }
@@ -248,6 +248,6 @@ void eliminate(int min)
             candidates[i].eliminated = true;
         }
     }
-    
+
     return;
 }
