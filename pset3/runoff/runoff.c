@@ -186,7 +186,7 @@ void tabulate(void)
 // Print the winner of the election, if there is one
 bool print_winner(void)
 {
-    int majority = candidate_count / 2 + 1;
+    int majority = voter_count / 2 + 1;
     for (int i = 0; i < candidate_count; i++)
     {
         if (candidates[i].votes >= majority)
@@ -204,7 +204,7 @@ int find_min(void)
     int min = voter_count;
     for (int i = 0; i < candidate_count; i++)
     {
-        if (candidates[i].votes < min)
+        if (candidates[i].eliminated == false && candidates[i].votes < min)
         {
             min = candidates[i].votes;
         }
