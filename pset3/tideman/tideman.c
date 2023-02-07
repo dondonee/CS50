@@ -130,32 +130,26 @@ void record_preferences(int ranks[])
 // Record pairs of candidates where one is preferred over the other
 void add_pairs(void)
 {
-    int index = 0;
-
     for (int i = 0; i < candidate_count - 1; i++)
     {
 
         for (int j = i + 1; j < candidate_count; j++)
         {
-
-            int ci = preferences[i][j];
-            int cj = preferences[j][i];
-
-            if (ci == cj)
+            if (preferences[i][j] == preferences[j][i])
             {
                 break;
             }
-            else if (ci > cj)
+            else if (preferences[i][j] > preferences[j][i])
             {
-                pairs[index].winner = i;
-                pairs[index].loser = j;
-                index++;
+                pairs[pair_count].winner = i;
+                pairs[pair_count].loser = j;
+                pair_count++;
             }
             else
             {
-                pairs[index].winner = j;
-                pairs[index].loser = i;
-                index++;
+                pairs[pair_count].winner = j;
+                pairs[pair_count].loser = i;
+                pair_count++;
             }
         }
     }
@@ -166,7 +160,30 @@ void add_pairs(void)
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
 {
-    // TODO
+    typedef struct
+    {
+        int pair;
+        int numbers;
+    } strength;
+
+    strength strengths[pair_count];
+
+    for (int i = 0; i < pair_count; i++)
+    {
+        strengths[i].pair = i;
+        strengths[i].numbers = preferences[pairs[i].winner][pairs[i].loser];
+    }
+
+    for (int i = 0; i < pair_count - 1; i++)
+    {
+        if (strengths[i].numbers < strengths[i + 1].numbers)
+        {
+            strength temp = strengths[i];
+            strengths[i] = strengths[i + 1];
+            strengths[i + 1] = temp;
+        }
+    }
+
     return;
 }
 
