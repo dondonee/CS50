@@ -174,15 +174,32 @@ void sort_pairs(void)
         strengths[i].numbers = preferences[pairs[i].winner][pairs[i].loser];
     }
 
-    for (int i = 0; i < pair_count - 1; i++)
+    for (int i = 0; i < pair_count; i++)
     {
-        if (strengths[i].numbers < strengths[i + 1].numbers)
+        for (int j = 0; j < pair_count - 1; j++)
         {
-            strength temp = strengths[i];
-            strengths[i] = strengths[i + 1];
-            strengths[i + 1] = temp;
+            if (strengths[j].numbers < strengths[j + 1].numbers)
+            {
+                strength temp = strengths[j];
+                strengths[j] = strengths[j + 1];
+                strengths[j + 1] = temp;
+            }
         }
     }
+
+    pair *copy_pairs = malloc(pair_count);
+
+    for (int i = 0; i < pair_count; i++)
+    {
+        copy_pairs[i] = pairs[i];
+    }
+
+    for (int i = 0; i < pair_count; i++)
+    {
+        pairs[i] = copy_pairs[strengths[i].pair];
+    }
+
+    free(copy_pairs);
 
     return;
 }
