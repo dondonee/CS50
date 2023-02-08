@@ -140,7 +140,7 @@ void add_pairs(void)
         {
             if (preferences[i][j] == preferences[j][i])
             {
-                break;
+                continue;
             }
             else if (preferences[i][j] > preferences[j][i])
             {
@@ -166,7 +166,7 @@ void sort_pairs(void)
     typedef struct
     {
         int pair;
-        int numbers;
+        int margin;
     } strength;
 
     strength strengths[pair_count];
@@ -174,12 +174,12 @@ void sort_pairs(void)
     for (int i = 0; i < pair_count; i++)
     {
         strengths[i].pair = i;
-        strengths[i].numbers = preferences[pairs[i].winner][pairs[i].loser];
+        strengths[i].margin = preferences[pairs[i].winner][pairs[i].loser] - preferences[pairs[i].loser][pairs[i].winner];
     }
 
     for (int i = 0; i < pair_count - 1; i++)
     {
-        if (strengths[i].numbers < strengths[i + 1].numbers)
+        if (strengths[i].margin < strengths[i + 1].margin)
         {
             strength temp = strengths[i];
             strengths[i] = strengths[i + 1];
