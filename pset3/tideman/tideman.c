@@ -166,7 +166,7 @@ void sort_pairs(void)
     typedef struct
     {
         int pair;
-        int margin;
+        int votes;
     } strength;
 
     strength strengths[pair_count];
@@ -174,18 +174,35 @@ void sort_pairs(void)
     for (int i = 0; i < pair_count; i++)
     {
         strengths[i].pair = i;
-        strengths[i].margin = preferences[pairs[i].winner][pairs[i].loser] - preferences[pairs[i].loser][pairs[i].winner];
+        strengths[i].votes = preferences[pairs[i].winner][pairs[i].loser];
     }
 
     for (int i = 0; i < pair_count - 1; i++)
     {
-        if (strengths[i].margin < strengths[i + 1].margin)
+        for (int j = 0; j < pair_count - i - 1; j++)
         {
-            strength temp = strengths[i];
-            strengths[i] = strengths[i + 1];
-            strengths[i + 1] = temp;
+            if (strengths[j].votes < strengths[j + 1].votes)
+            {
+                strength temp = strengths[j];
+                strengths[j] = strengths[j + 1];
+                strengths[j + 1] = temp;
+            }
         }
     }
+
+    pair *copy_pairs = malloc(pair_count);
+
+    for (int i = 0; i < pair_count; i++)
+    {
+        copy_pairs[i] = pairs[i];
+    }
+
+    for (int i = 0; i < pair_count; i++)
+    {
+        pairs[i] = copy_pairs[strengths[i].pair];
+    }
+
+    free(copy_pairs);
 
     return;
 }
