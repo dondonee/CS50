@@ -1,5 +1,7 @@
 #include <cs50.h>
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 // Max number of candidates
 #define MAX 9
@@ -31,6 +33,7 @@ void add_pairs(void);
 void sort_pairs(void);
 void lock_pairs(void);
 void print_winner(void);
+void check_cycle(int index);
 
 int main(int argc, string argv[])
 {
@@ -201,7 +204,7 @@ void check_cycle(int index)
         return;
     }
 
-    if (index < candidate_count)
+    if (index < candidate_count - 1)
     {
         locked[pairs[index].winner][pairs[index].loser] = true;
         check_cycle(index + 1);
@@ -251,6 +254,25 @@ void check_cycle(int index)
 // Print the winner of the election
 void print_winner(void)
 {
-    // TODO
+    string winner;
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        for (int j = 0; j < candidate_count; j++)
+        {
+            if (locked[j][i] == true)
+            {
+                break;
+            }
+
+            if (i == candidate_count - 1)
+            {
+                winner = candidates[i];
+            }
+        }
+    }
+
+    printf("%s\n", winner);
+
     return;
 }
