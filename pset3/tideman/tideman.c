@@ -174,32 +174,15 @@ void sort_pairs(void)
         strengths[i].numbers = preferences[pairs[i].winner][pairs[i].loser];
     }
 
-    for (int i = 0; i < pair_count; i++)
+    for (int i = 0; i < pair_count - 1; i++)
     {
-        for (int j = 0; j < pair_count - 1; j++)
+        if (strengths[i].numbers < strengths[i + 1].numbers)
         {
-            if (strengths[j].numbers < strengths[j + 1].numbers)
-            {
-                strength temp = strengths[j];
-                strengths[j] = strengths[j + 1];
-                strengths[j + 1] = temp;
-            }
+            strength temp = strengths[i];
+            strengths[i] = strengths[i + 1];
+            strengths[i + 1] = temp;
         }
     }
-
-    pair *copy_pairs = malloc(pair_count);
-
-    for (int i = 0; i < pair_count; i++)
-    {
-        copy_pairs[i] = pairs[i];
-    }
-
-    for (int i = 0; i < pair_count; i++)
-    {
-        pairs[i] = copy_pairs[strengths[i].pair];
-    }
-
-    free(copy_pairs);
 
     return;
 }
@@ -207,8 +190,62 @@ void sort_pairs(void)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    // TODO
+    check_cycle(0);
     return;
+}
+
+void check_cycle(int index)
+{
+    if (index == pair_count)
+    {
+        return;
+    }
+
+    if (index < candidate_count)
+    {
+        locked[pairs[index].winner][pairs[index].loser] = true;
+        check_cycle(index + 1);
+    }
+
+    int cycle = 0;
+    for (int i = 0; i <= index; i++)
+    {
+        if (pairs[i].winner == candidate_count - 1)
+        {
+            if (pairs[i].loser == 0)
+            {
+                cycle++;
+            }
+        }
+
+        if (pairs[i].loser == pairs[i].winner + 1)
+        {
+            cycle++;
+        }
+    }
+
+    int r_cycle = 0;
+    for (int i = 0; i <= index; i++)
+    {
+        if (pairs[i].winner == 1)
+        {
+            if (pairs[i].loser == 0)
+            {
+                r_cycle++;
+            }
+        }
+
+        if (pairs[i].loser == pairs[i].winner - 1)
+        {
+            r_cycle++;
+        }
+    }
+
+    if (cycle != candidate_count && r_cycle != candidate_count)
+    {
+        locked[pairs[index].winner][pairs[index].loser] = true;
+        check_cycle(index + 1);
+    }
 }
 
 // Print the winner of the election
