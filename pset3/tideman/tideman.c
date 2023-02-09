@@ -33,7 +33,7 @@ void add_pairs(void);
 void sort_pairs(void);
 void lock_pairs(void);
 void print_winner(void);
-void check_cycle(int index);
+bool check_cycle(void);
 
 int main(int argc, string argv[])
 {
@@ -210,68 +210,72 @@ void sort_pairs(void)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    check_cycle(0);
+    for (int i = 0; i < pair_count; i++)
+    {
+        locked[pairs[i].winner][pairs[i].loser] = true;
+
+        if (check_cycle())
+        {
+            locked[pairs[i].winner][pairs[i].loser] = false;
+        }
+    }
+
     return;
 }
 
-void check_cycle(int index)
+bool check_cycle(void)
 {
-    if (index == pair_count)
-    {
-        return;
-    }
-
-    if (index < candidate_count - 1)
-    {
-        locked[pairs[index].winner][pairs[index].loser] = true;
-        check_cycle(index + 1);
-    }
-
     int cycle = 0;
-    for (int i = 0; i <= index; i++)
+    for (int i = 0; i < candidate_count; i++)
     {
-        if (pairs[i].winner == candidate_count - 1)
+        if (i == candidate_count - 1)
         {
-            if (pairs[i].loser == 0)
+            if (locked[i][0] == true)
             {
                 cycle++;
             }
+
+            continue;
         }
 
-        if (pairs[i].loser == pairs[i].winner + 1)
+        if (locked[i][i + 1] == true)
         {
             cycle++;
         }
     }
 
     int r_cycle = 0;
-    for (int i = 0; i <= index; i++)
+    for (int i = 0; i < candidate_count; i++)
     {
-        if (pairs[i].winner == 1)
+        if (i == 0)
         {
-            if (pairs[i].loser == 0)
+            if (locked[0][candidate_count - 1] == true)
             {
                 r_cycle++;
             }
+
+            continue;
         }
 
-        if (pairs[i].loser == pairs[i].winner - 1)
+        if (locked[i][i - 1] == true)
         {
             r_cycle++;
         }
     }
 
-    if (cycle != candidate_count && r_cycle != candidate_count)
+    if (cycle == candidate_count || r_cycle == candidate_count)
     {
-        locked[pairs[index].winner][pairs[index].loser] = true;
-        check_cycle(index + 1);
+        return true;
     }
+
+    return false;
 }
 
 // Print the winner of the election
 void print_winner(void)
 {
     string winner;
+    int numbers = 0;
 
     for (int i = 0; i < candidate_count; i++)
     {
@@ -282,14 +286,18 @@ void print_winner(void)
                 break;
             }
 
-            if (i == candidate_count - 1)
+            if (j == candidate_count - 1)
             {
                 winner = candidates[i];
+                numbers++;
             }
         }
     }
 
-    printf("%s\n", winner);
+    if (numbers == 1)
+    {
+        printf("%s\n", winner);
+    }
 
     return;
 }
