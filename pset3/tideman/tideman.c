@@ -31,6 +31,7 @@ bool vote(int rank, string name, int ranks[]);
 void record_preferences(int ranks[]);
 void add_pairs(void);
 void sort_pairs(void);
+int compare_pair(const void *a, const void *b);
 void lock_pairs(void);
 void print_winner(void);
 bool check_cycle(void);
@@ -155,48 +156,30 @@ void add_pairs(void)
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
 {
-    typedef struct
-    {
-        int pair;
-        int votes;
-    } strength;
-
-    strength strengths[pair_count];
-
-    for (int i = 0; i < pair_count; i++)
-    {
-        strengths[i].pair = i;
-        strengths[i].votes = preferences[pairs[i].winner][pairs[i].loser];
-    }
-
-    for (int i = 0; i < pair_count - 1; i++)
-    {
-        for (int j = 0; j < pair_count - i - 1; j++)
-        {
-            if (strengths[j].votes < strengths[j + 1].votes)
-            {
-                strength temp = strengths[j];
-                strengths[j] = strengths[j + 1];
-                strengths[j + 1] = temp;
-            }
-        }
-    }
-
-    pair *copy_pairs = malloc(pair_count);
-
-    for (int i = 0; i < pair_count; i++)
-    {
-        copy_pairs[i] = pairs[i];
-    }
-
-    for (int i = 0; i < pair_count; i++)
-    {
-        pairs[i] = copy_pairs[strengths[i].pair];
-    }
-
-    free(copy_pairs);
-
+    qsort(pairs, pair_count, sizeof(pair), compare_pair);
     return;
+}
+
+int compare_pair(const void *a, const void *b)
+{
+    const pair *pa = (const pair *)a;
+    const pair *pb = (const pair *)b;
+
+    int margin_a = preferences[pa->winner][pa->loser] - preferences[pb->winner][pb->loser];
+    int margin_b = preferences[pb->winner][pb->loser] - preferences[pa->winner][pa->loser];
+
+    if (margin_a > margin_b)
+    {
+        return -1;
+    }
+    else if (margin_a < margin_b)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
