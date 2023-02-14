@@ -221,29 +221,22 @@ bool cycle(int start, int edge)
 // Print the winner of the election
 void print_winner(void)
 {
-    string winner;
-    int numbers = 0;
-
     for (int i = 0; i < candidate_count; i++)
     {
+        int false_count = 0;
+
         for (int j = 0; j < candidate_count; j++)
         {
-            if (locked[j][i] == true)
+            if (locked[j][i] == false)
             {
-                break;
+                false_count++;
             }
 
-            if (j == candidate_count - 1)
+            if (false_count == candidate_count)
             {
-                winner = candidates[i];
-                numbers++;
+                printf("%s\n", candidates[i]);
             }
         }
-    }
-
-    if (numbers == 1)
-    {
-        printf("%s\n", winner);
     }
 
     return;
