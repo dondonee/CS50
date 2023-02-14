@@ -34,7 +34,7 @@ void sort_pairs(void);
 int compare_pair(const void *a, const void *b);
 void lock_pairs(void);
 void print_winner(void);
-bool check_cycle(void);
+bool cycle(int start, int edge);
 
 int main(int argc, string argv[])
 {
@@ -187,60 +187,32 @@ void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
-        locked[pairs[i].winner][pairs[i].loser] = true;
-
-        if (check_cycle())
+        if (!cycle(pairs[i].winner, pairs[i].loser))
         {
-            locked[pairs[i].winner][pairs[i].loser] = false;
+            locked[pairs[i].winner][pairs[i].loser] = true;
         }
     }
 
     return;
 }
 
-bool check_cycle(void)
+bool cycle(int start, int edge)
 {
-    int cycle = 0;
-    for (int i = 0; i < candidate_count; i++)
-    {
-        if (i == candidate_count - 1)
-        {
-            if (locked[i][0] == true)
-            {
-                cycle++;
-            }
 
-            continue;
-        }
-
-        if (locked[i][i + 1] == true)
-        {
-            cycle++;
-        }
-    }
-
-    int r_cycle = 0;
-    for (int i = 0; i < candidate_count; i++)
-    {
-        if (i == 0)
-        {
-            if (locked[0][candidate_count - 1] == true)
-            {
-                r_cycle++;
-            }
-
-            continue;
-        }
-
-        if (locked[i][i - 1] == true)
-        {
-            r_cycle++;
-        }
-    }
-
-    if (cycle == candidate_count || r_cycle == candidate_count)
+    if (start == edge)
     {
         return true;
+    }
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (locked[edge][i] == true)
+        {
+            if (cycle(start, i))
+            {
+                return true;
+            }
+        }
     }
 
     return false;
