@@ -50,6 +50,7 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
 BYTE get_sepia_color(BYTE originalBlue, BYTE originalGreen, BYTE originalRed, char rgb)
 {
     double result;
+    
     switch (rgb)
     {
     case 'b':
@@ -70,7 +71,7 @@ BYTE get_sepia_color(BYTE originalBlue, BYTE originalGreen, BYTE originalRed, ch
         return (BYTE)255;
     }
 
-    return (BYTE)result;
+    return (BYTE)round(result);
 }
 
 // Reflect image horizontally
