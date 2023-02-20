@@ -3,6 +3,7 @@
 #include <string.h>
 
 BYTE get_sepia_color(BYTE originalBlue, BYTE originalGreen, BYTE originalRed, char rgb);
+void blur_pixel(int height, int width, RGBTRIPLE image[height][width], int k, int l);
 
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
@@ -87,5 +88,49 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            blur_pixel(height, width, image, i, j);
+        }
+    }
+
+    return;
+}
+
+void blur_pixel(int height, int width, RGBTRIPLE image[height][width], int k, int l)
+{
+    int count = 0;
+    int blue = 0;
+    int green = 0;
+    int red = 0;
+
+    for (int i = k - 1; i <= k + 1; i++)
+    {
+        if (i < 0 || i > height)
+        {
+            continue;
+        }
+
+        for (int j = l - 1; j <= l + 1; j++)
+        {
+            if (j < 0 || j > width)
+            {
+                continue;
+            }
+
+            blue += image[i][j].rgbtBlue;
+            green += image[i][j].rgbtGreen;
+            red += image[i][j].rgbtRed;
+
+            count++;
+        }
+    }
+
+    image[k][l].rgbtBlue = round(blue / count);
+    image[k][l].rgbtGreen = round(green / count);
+    image[k][l].rgbtRed = round(red / count);
+
     return;
 }
