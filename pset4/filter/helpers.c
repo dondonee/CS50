@@ -3,7 +3,7 @@
 #include <string.h>
 
 BYTE get_sepia_color(BYTE originalBlue, BYTE originalGreen, BYTE originalRed, char rgb);
-void blur_pixel(int height, int width, RGBTRIPLE image[height][width], int k, int l);
+void blur_pixel(int height, int width, RGBTRIPLE temp[height][width], RGBTRIPLE image[height][width], int k, int l);
 
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
@@ -50,7 +50,7 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
 BYTE get_sepia_color(BYTE originalBlue, BYTE originalGreen, BYTE originalRed, char rgb)
 {
     double result;
-    
+
     switch (rgb)
     {
     case 'b':
@@ -94,49 +94,56 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
+    RGBTRIPLE temp[height][width];
+    memcpy(temp, image, height * width * sizeof(RGBTRIPLE));
+
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            blur_pixel(height, width, image, i, j);
+            blur_pixel(height, width, temp, image, i, j);
         }
     }
 
     return;
 }
 
-void blur_pixel(int height, int width, RGBTRIPLE image[height][width], int k, int l)
+void blur_pixel(int height, int width, RGBTRIPLE temp[height][width], RGBTRIPLE image[height][width], int k, int l)
 {
     int count = 0;
-    int blue = 0;
-    int green = 0;
-    int red = 0;
+    double blue = 0;
+    double green = 0;
+    double red = 0;
 
     for (int i = k - 1; i <= k + 1; i++)
     {
-        if (i < 0 || i > height)
+        if (i < 0 || i >= height)
         {
             continue;
         }
 
         for (int j = l - 1; j <= l + 1; j++)
         {
-            if (j < 0 || j > width)
+            if (j < 0 || j >= width)
             {
                 continue;
             }
 
-            blue += image[i][j].rgbtBlue;
-            green += image[i][j].rgbtGreen;
-            red += image[i][j].rgbtRed;
+            blue += temp[i][j].rgbtBlue;
+            green += temp[i][j].rgbtGreen;
+            red += temp[i][j].rgbtRed;
 
             count++;
         }
     }
 
-    image[k][l].rgbtBlue = round(blue / count);
-    image[k][l].rgbtGreen = round(green / count);
-    image[k][l].rgbtRed = round(red / count);
+    blue = round(blue / count);
+    green = round(green / count);
+    red = round(red / count);
+
+    image[k][l].rgbtBlue = (BYTE)blue;
+    image[k][l].rgbtGreen = (BYTE)green;
+    image[k][l].rgbtRed = (BYTE)red;
 
     return;
 }
