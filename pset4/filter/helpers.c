@@ -1,5 +1,6 @@
 #include "helpers.h"
 #include <math.h>
+#include <string.h>
 
 BYTE get_sepia_color(BYTE originalBlue, BYTE originalGreen, BYTE originalRed, char rgb);
 
@@ -69,6 +70,17 @@ BYTE get_sepia_color(BYTE originalBlue, BYTE originalGreen, BYTE originalRed, ch
 // Reflect image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
+    RGBTRIPLE temp[height][width];
+    memcpy(temp, image, height * width * sizeof(RGBTRIPLE));
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            image[i][j] = temp[i][width - j - 1];
+        }
+    }
+
     return;
 }
 
