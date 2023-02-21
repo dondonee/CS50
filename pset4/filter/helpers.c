@@ -195,7 +195,6 @@ int *get_Gx(int height, int width, RGBTRIPLE temp[height][width], int k, int l)
 
         for (int j = l - 1; j <= l + 1; j++)
         {
-
             if (i < 0 || i >= height)
             {
                 break;
@@ -232,7 +231,7 @@ int *get_Gy(int height, int width, RGBTRIPLE temp[height][width], int k, int l)
     int green = 0;
     int red = 0;
 
-    int offset[3][3] = {{-1, 2, -1}, {0, 0, 0}, {1, 2, 1}};
+    int offset[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
     int x = 0;
 
     for (int i = k - 1; i <= k + 1; i++)
@@ -241,7 +240,6 @@ int *get_Gy(int height, int width, RGBTRIPLE temp[height][width], int k, int l)
 
         for (int j = l - 1; j <= l + 1; j++)
         {
-
             if (i < 0 || i >= height)
             {
                 break;
@@ -262,10 +260,6 @@ int *get_Gy(int height, int width, RGBTRIPLE temp[height][width], int k, int l)
 
         x++;
     }
-
-    blue = round(blue / 9);
-    green = round(green / 9);
-    red = round(red / 9);
 
     Gy[0] = blue;
     Gy[1] = green;
