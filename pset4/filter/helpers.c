@@ -7,7 +7,7 @@ void get_sepia_color(RGBTRIPLE *pixel);
 void blur_pixel(int height, int width, RGBTRIPLE temp[height][width], RGBTRIPLE image[height][width], int k, int l);
 void edges(int height, int width, RGBTRIPLE image[height][width]);
 int *get_Gx_Gy(int height, int width, RGBTRIPLE temp[height][width], int k, int l, char xy);
-BYTE sobel_operator(int Gx, int Gy);
+void sobel_operator(RGBTRIPLE *pixel, int *Gx, int *Gy);
 
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
@@ -138,9 +138,7 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             int *Gx = get_Gx_Gy(height, width, temp, i, j, 'x');
             int *Gy = get_Gx_Gy(height, width, temp, i, j, 'y');
 
-            image[i][j].rgbtBlue = sobel_operator(Gx[0], Gy[0]);
-            image[i][j].rgbtGreen = sobel_operator(Gx[1], Gy[1]);
-            image[i][j].rgbtRed = sobel_operator(Gx[2], Gy[2]);
+            sobel_operator(&image[i][j], Gx, Gy);
         }
     }
 
@@ -203,9 +201,15 @@ int *get_Gx_Gy(int height, int width, RGBTRIPLE temp[height][width], int k, int 
     return G;
 }
 
-BYTE sobel_operator(int Gx, int Gy)
+void sobel_operator(RGBTRIPLE *pixel, int *Gx, int *Gy)
 {
-    double result = round(sqrt(Gx * Gx + Gy * Gy));
+    double result[3];
+    for (int i = 0; i < 3; i++)
+    {
+        result[i] = round(sqrt(Gx[i] * Gx[i] + Gy[i] * Gy[i]));
+    }
 
-    return (result > 255) ? 255 : (BYTE)result;
+    pixel->rgbtBlue = (result[0] > 255) ? 255 : (BYTE)result[0];
+    pixel->rgbtGreen = (result[1] > 255) ? 255 : (BYTE)result[1];
+    pixel->rgbtRed = (result[2] > 255) ? 255 : (BYTE)result[2];
 }
