@@ -141,9 +141,6 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             image[i][j].rgbtBlue = sobel_operator(Gx[0], Gy[0]);
             image[i][j].rgbtGreen = sobel_operator(Gx[1], Gy[1]);
             image[i][j].rgbtRed = sobel_operator(Gx[2], Gy[2]);
-
-            free(Gx);
-            free(Gy);
         }
     }
 
