@@ -118,13 +118,9 @@ void blur_pixel(int height, int width, RGBTRIPLE temp[height][width], RGBTRIPLE 
         }
     }
 
-    blue = round(blue / count);
-    green = round(green / count);
-    red = round(red / count);
-
-    image[k][l].rgbtBlue = (BYTE)blue;
-    image[k][l].rgbtGreen = (BYTE)green;
-    image[k][l].rgbtRed = (BYTE)red;
+    image[k][l].rgbtBlue = (BYTE)round(blue / count);
+    image[k][l].rgbtGreen = (BYTE)round(green / count);
+    image[k][l].rgbtRed = (BYTE)round(red / count);
 
     return;
 }
