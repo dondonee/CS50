@@ -6,8 +6,7 @@
 void get_sepia_color(RGBTRIPLE *pixel);
 void blur_pixel(int height, int width, RGBTRIPLE temp[height][width], RGBTRIPLE image[height][width], int k, int l);
 void edges(int height, int width, RGBTRIPLE image[height][width]);
-int *get_Gx(int height, int width, RGBTRIPLE temp[height][width], int k, int l);
-int *get_Gy(int height, int width, RGBTRIPLE temp[height][width], int k, int l);
+int *get_Gx_Gy(int height, int width, RGBTRIPLE temp[height][width], int k, int l, char xy);
 BYTE sobel_opetator(int Gx, int Gy);
 
 // Convert image to grayscale
@@ -140,8 +139,8 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            int *Gx = get_Gx(height, width, temp, i, j);
-            int *Gy = get_Gy(height, width, temp, i, j);
+            int *Gx = get_Gx_Gy(height, width, temp, i, j, 'x');
+            int *Gy = get_Gx_Gy(height, width, temp, i, j, 'y');
 
             image[i][j].rgbtBlue = sobel_opetator(Gx[0], Gy[0]);
             image[i][j].rgbtGreen = sobel_opetator(Gx[1], Gy[1]);
@@ -155,15 +154,26 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
     return;
 }
 
-int *get_Gx(int height, int width, RGBTRIPLE temp[height][width], int k, int l)
+int *get_Gx_Gy(int height, int width, RGBTRIPLE temp[height][width], int k, int l, char xy)
 {
-    int *Gx = malloc(3 * sizeof(int));
+    int *G = malloc(3 * sizeof(int));
 
     int blue = 0;
     int green = 0;
     int red = 0;
 
-    int offset[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+    int offset[3][3];
+    switch (xy)
+    {
+    case 'x':
+        memcpy(offset, (int[3][3]){{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}}, sizeof(offset));
+        break;
+
+    case 'y':
+        memcpy(offset, (int[3][3]){{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}}, sizeof(offset));
+        break;
+    }
+
     int x = 0;
 
     for (int i = k - 1; i <= k + 1; i++)
@@ -193,70 +203,16 @@ int *get_Gx(int height, int width, RGBTRIPLE temp[height][width], int k, int l)
         x++;
     }
 
-    Gx[0] = blue;
-    Gx[1] = green;
-    Gx[2] = red;
+    G[0] = blue;
+    G[1] = green;
+    G[2] = red;
 
-    return Gx;
-}
-
-int *get_Gy(int height, int width, RGBTRIPLE temp[height][width], int k, int l)
-{
-    int *Gy = malloc(3 * sizeof(int));
-
-    int blue = 0;
-    int green = 0;
-    int red = 0;
-
-    int offset[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
-    int x = 0;
-
-    for (int i = k - 1; i <= k + 1; i++)
-    {
-        int y = 0;
-
-        for (int j = l - 1; j <= l + 1; j++)
-        {
-            if (i < 0 || i >= height)
-            {
-                break;
-            }
-
-            if (j < 0 || j >= width)
-            {
-                y++;
-                continue;
-            }
-
-            blue += temp[i][j].rgbtBlue * offset[x][y];
-            green += temp[i][j].rgbtGreen * offset[x][y];
-            red += temp[i][j].rgbtRed * offset[x][y];
-
-            y++;
-        }
-
-        x++;
-    }
-
-    Gy[0] = blue;
-    Gy[1] = green;
-    Gy[2] = red;
-
-    return Gy;
+    return G;
 }
 
 BYTE sobel_opetator(int Gx, int Gy)
 {
     double result = round(sqrt(Gx * Gx + Gy * Gy));
 
-    if (result > 255)
-    {
-        return (BYTE)255;
-    }
-    else if (result < 0)
-    {
-        return (BYTE)0;
-    }
-
-    return (BYTE)result;
+    return (result > 255) ? 255 : (BYTE)result;
 }
