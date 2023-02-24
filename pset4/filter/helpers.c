@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-BYTE get_sepia_color(BYTE originalBlue, BYTE originalGreen, BYTE originalRed, char rgb);
+void get_sepia_color(RGBTRIPLE *pixel);
 void blur_pixel(int height, int width, RGBTRIPLE temp[height][width], RGBTRIPLE image[height][width], int k, int l);
 void edges(int height, int width, RGBTRIPLE image[height][width]);
 int *get_Gx(int height, int width, RGBTRIPLE temp[height][width], int k, int l);
@@ -34,44 +34,26 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            BYTE originalBlue = image[i][j].rgbtBlue;
-            BYTE originalGreen = image[i][j].rgbtGreen;
-            BYTE originalRed = image[i][j].rgbtRed;
-
-            image[i][j].rgbtBlue = get_sepia_color(originalBlue, originalGreen, originalRed, 'b');
-            image[i][j].rgbtGreen = get_sepia_color(originalBlue, originalGreen, originalRed, 'g');
-            image[i][j].rgbtRed = get_sepia_color(originalBlue, originalGreen, originalRed, 'r');
+            get_sepia_color(&image[i][j]);
         }
     }
 
     return;
 }
 
-BYTE get_sepia_color(BYTE originalBlue, BYTE originalGreen, BYTE originalRed, char rgb)
+void get_sepia_color(RGBTRIPLE *pixel)
 {
-    double result;
+    BYTE originalBlue = pixel->rgbtBlue;
+    BYTE originalGreen = pixel->rgbtGreen;
+    BYTE originalRed = pixel->rgbtRed;
 
-    switch (rgb)
-    {
-    case 'b':
-        result = .272 * originalRed + .534 * originalGreen + .131 * originalBlue;
-        break;
+    double Blue = round(.272 * originalRed + .534 * originalGreen + .131 * originalBlue);
+    double Green = round(.349 * originalRed + .686 * originalGreen + .168 * originalBlue);
+    double Red = round(.393 * originalRed + .769 * originalGreen + .189 * originalBlue);
 
-    case 'g':
-        result = .349 * originalRed + .686 * originalGreen + .168 * originalBlue;
-        break;
-
-    case 'r':
-        result = .393 * originalRed + .769 * originalGreen + .189 * originalBlue;
-        break;
-    }
-
-    if (round(result) > 255)
-    {
-        return (BYTE)255;
-    }
-
-    return (BYTE)round(result);
+    pixel->rgbtBlue = (Blue > 255) ? 255 : (BYTE)Blue;
+    pixel->rgbtGreen = (Green > 255) ? 255 : (BYTE)Green;
+    pixel->rgbtRed = (Red > 255) ? 255 : (BYTE)Red;
 }
 
 // Reflect image horizontally
