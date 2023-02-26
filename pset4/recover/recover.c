@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <getopt.h>
 #include <sys/stat.h>
+#include <stdbool.h>
 
 typedef uint8_t BYTE;
+
+bool isJPEG(FILE *file);
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +19,7 @@ int main(int argc, char *argv[])
     }
 
     char *infile = argv[1];
-    FILE *inptr = fopen(infile, "r");
+    FILE *inptr = fopen(infile, "rb");
     if (inptr == NULL)
     {
         fprintf(stderr, "Could not open %s.\n", infile);
@@ -26,4 +30,38 @@ int main(int argc, char *argv[])
     struct stat st;
     stat(infile, &st);
     const int N = st.st_size / 512;
+
+    fseek(stream, 0, SEEK_SET);
+
+    for (int i = 0; i < N; i++)
+    {
+        fseek(inptr, 512 * i, SEEK_CUR);
+
+        if (isJPEG(inptr))
+        {
+            printf("Possibly the %ith block is a JPEG.\n", i);
+        }
+    }
+}
+
+bool isJPEG(FILE *file)
+{
+    BYTE start_bytes[4];
+    fread(&start_bytes, 1, 4, file);
+
+    BYTE signiture[3] = {0xff, 0xd8, 0xff};
+    for (int i = 0; i < 3; i++)
+    {
+        if (start_bytes[i] != signiture[i])
+        {
+            return false;
+        }
+    }
+
+    if ((start_bytes[3] & 0xf0) != 0xe0)
+    {
+        return false;
+    }
+
+    return true;
 }
