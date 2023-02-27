@@ -8,6 +8,7 @@
 typedef uint8_t BYTE;
 
 bool isJPEG(FILE *file);
+void copy_block(FILE *inptr, FILE *outptr);
 
 int main(int argc, char *argv[])
 {
@@ -31,14 +32,35 @@ int main(int argc, char *argv[])
     stat(infile, &st);
     const int N = st.st_size / 512;
 
+    // Read each 512-byte block of the input file
+    int fileCnt = 0;
+    char outfile[8];
+    FILE *outptr;
     for (int i = 0; i < N; i++)
     {
         fseek(inptr, 512 * i, SEEK_SET);
 
+        // If the current block contains the start of a JPEG file, create a new file to write the recovered JPEG data to.
         if (isJPEG(inptr))
         {
+
+            if (fileCnt > 0)
+            {
+                fclose(outptr);
+            }
+
+            sprintf(outfile, "%03i.jpg", fileCnt);
+            fileCnt++;
+            outptr = fopen(outfile, "a");
+        }
+
+        if (fileCnt > 0)
+        {
+            copy_block(inptr, outptr);
         }
     }
+
+    fclose(outptr);
 }
 
 bool isJPEG(FILE *file)
@@ -62,4 +84,12 @@ bool isJPEG(FILE *file)
     }
 
     return true;
+}
+
+void copy_block(FILE *inptr, FILE *outptr)
+{
+    BYTE buffer[512];
+    fread(buffer, 1, 512, inptr);
+
+    fwrite(buffer, 1, 512, outptr);
 }
