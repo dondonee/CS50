@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     // Check if the correct command-line arguments were provided and print an error message if not.
     if (argc != 2)
     {
-        fprintf(stderr, "Usage: filter [flag] infile outfile\n");
+        fprintf(stderr, "Usage: recover infile\n");
         return 1;
     }
 
