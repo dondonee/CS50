@@ -31,15 +31,12 @@ int main(int argc, char *argv[])
     stat(infile, &st);
     const int N = st.st_size / 512;
 
-    fseek(stream, 0, SEEK_SET);
-
     for (int i = 0; i < N; i++)
     {
-        fseek(inptr, 512 * i, SEEK_CUR);
+        fseek(inptr, 512 * i, SEEK_SET);
 
         if (isJPEG(inptr))
         {
-            printf("Possibly the %ith block is a JPEG.\n", i);
         }
     }
 }
@@ -48,6 +45,7 @@ bool isJPEG(FILE *file)
 {
     BYTE start_bytes[4];
     fread(&start_bytes, 1, 4, file);
+    fseek(file, -4, SEEK_CUR);
 
     BYTE signiture[3] = {0xff, 0xd8, 0xff};
     for (int i = 0; i < 3; i++)
