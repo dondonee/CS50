@@ -1,6 +1,8 @@
 // Implements a dictionary's functionality
 
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdint.h>
 
 #include "dictionary.h"
 
@@ -28,8 +30,13 @@ bool check(const char *word)
 // Hashes word to a number
 unsigned int hash(const char *word)
 {
-    // TODO
-    return 0;
+    unsigned int result = 0;
+    uint32_t len = strlen(word);
+
+    result = fnv1a_32(word, len);
+    result = result % N;
+
+    return result;
 }
 
 // Loads dictionary into memory, returning true if successful else false
