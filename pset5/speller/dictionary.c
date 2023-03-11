@@ -9,14 +9,14 @@ typedef struct node
 {
     char word[LENGTH + 1];
     struct node *next;
-}
-node;
+} node;
 
 // Number of buckets in hash table
 const unsigned int N = 1;
 
 // Hash table
 node *table[N];
+int dictionary_count = 0;
 
 // Returns true if word is in dictionary else false
 bool check(const char *word)
@@ -35,7 +35,40 @@ unsigned int hash(const char *word)
 // Loads dictionary into memory, returning true if successful else false
 bool load(const char *dictionary)
 {
-    // TODO
+
+    FILE *file = fopen(dictionary, "r");
+    if (file == NULL)
+    {
+        return false;
+    }
+
+    char word[LENGTH + 1];
+    while (fscanf(file, "%s", word) != EOF)
+    {
+        node *new_node = malloc(sizeof(node));
+        if (new_node == NULL)
+        {
+            return false;
+        }
+
+        strcpy(new_node->word, word);
+        new_node->next = NULL;
+
+        int index = hash(word);
+        if (table[index] == NULL)
+        {
+            table[index] = new_node;
+        }
+        else
+        {
+            new_node->next = table[index];
+            table[index] = new_node;
+        }
+
+        dictionary_count++;
+    }
+
+    fclose(file);
     return false;
 }
 
