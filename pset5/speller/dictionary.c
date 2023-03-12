@@ -2,8 +2,10 @@
 
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 #include <strings.h>
+#include <ctype.h>
 
 #include "dictionary.h"
 
@@ -15,7 +17,7 @@ typedef struct node
 } node;
 
 // Number of buckets in hash table
-const unsigned int N = 1;
+const unsigned int N = 500;
 
 // Hash table
 node *table[N];
@@ -43,13 +45,16 @@ bool check(const char *word)
 // Hashes word to a number
 unsigned int hash(const char *word)
 {
-    unsigned int result = 0;
-    uint32_t len = strlen(word);
+    unsigned int value = 0;
+    unsigned int key_len = strlen(word);
+    for (int i = 0; i < key_len; i++)
+    {
+        value = value + 37 * tolower(word[i]);
+    }
 
-    result = fnv1a_32(word, len);
-    result = result % N;
+    value = value % N;
 
-    return result;
+    return value;
 }
 
 // Loads dictionary into memory, returning true if successful else false
@@ -89,7 +94,7 @@ bool load(const char *dictionary)
     }
 
     fclose(file);
-    return false;
+    return true;
 }
 
 // Returns number of words in dictionary if loaded else 0 if not yet loaded
