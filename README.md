@@ -1,7 +1,8 @@
 # CS50
 ## 소개
-+ CS50 fall 2019  과제의 풀이를 백업한 저장소
-+ CS50에서 제공하는 과제 체크 프로그램(check50)을 통과하면 완료로 처리
++ CS50은 Havard University에서 공개하는 **컴퓨터과학 입문 강의**입니다.
++ [CS50 fall 2019](https://cs50.harvard.edu/college/2019/fall/) 과제의 풀이 저장소입니다.
++ CS50에서 제공하는 과제 체크 프로그램(check50)을 통과하면 완료로 처리했습니다.
 <br>
 <br>
 
